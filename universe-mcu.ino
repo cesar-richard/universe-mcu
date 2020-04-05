@@ -3,9 +3,9 @@
 #include <WebSocketClient.h>
 #include <Ticker.h>
 
-const int pinArray [9] = {D0,D1,D2,D3,D4,D5,D6,D7,D8};
-bool* lastStateArray[9] = {false,false,false,false,false,false,false,false,false};
-const char* nameArray [9] = {"blueLed","blue","green","black","white","yellow","red","gray","D8"};
+const int pinArray[9] = {D0,D1,D2,D3,D4,D5,D6,D7,D8};
+int* lastStateArray[9] = {0,0,0,0,0,0,0,0,0};
+const String nameArray[9] = {"blueLed","blue","green","black","white","yellow","red","gray","D8"};
 const int interval = 10000;
 const char* ssid = "Licornes";
 const char* wifipassword = "UnicornPowaaaaa";
@@ -45,7 +45,7 @@ void tick(){
 }
 
 void btnCheck(int index, void (&callback)(String, String, String)){
-  bool state = digitalRead(pinArray[index]);
+  int state = digitalRead(pinArray[index]);
   if (state != *lastStateArray[index]) {
     if (state == LOW) {
       callback("button",nameArray[index],"on");
