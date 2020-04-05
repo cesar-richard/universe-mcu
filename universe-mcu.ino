@@ -4,7 +4,7 @@
 #include <Ticker.h>
 
 const int pinArray[9] = {D0,D1,D2,D3,D4,D5,D6,D7,D8};
-int* lastStateArray[9] = {0,0,0,0,0,0,0,0,0};
+int lastStateArray[9] = {0,0,0,0,0,0,0,0,0};
 const String nameArray[9] = {"blueLed","blue","green","black","white","yellow","red","gray","D8"};
 const int interval = 10000;
 const char* ssid = "Licornes";
@@ -46,13 +46,13 @@ void tick(){
 
 void btnCheck(int index, void (&callback)(String, String, String)){
   int state = digitalRead(pinArray[index]);
-  if (state != *lastStateArray[index]) {
+  if (state != lastStateArray[index]) {
     if (state == LOW) {
       callback("button",nameArray[index],"on");
     } else {
       callback("button",nameArray[index],"off");
     }
-    *lastStateArray[index] = state;
+    lastStateArray[index] = state;
   }
 }
 
@@ -63,7 +63,6 @@ void wsconnect(){
     Serial.println("Connection failed.");
     ESP.restart();
   }
-  // Handshake with the server
   webSocketClient.host = wshost;
   webSocketClient.path = path;
   if (webSocketClient.handshake(client)) {
@@ -77,13 +76,13 @@ void wsconnect(){
 }
 
 void setup() {
-  digitalWrite(pinArray[0], LOW);
   Serial.begin(115200);
   WiFi.begin(ssid, wifipassword);
   pinMode(pinArray[0], OUTPUT);
-  for (size_t i = 1; i < 9; i++) {
+  for (int i = 1; i < 9; i++) {
     pinMode(pinArray[i], INPUT_PULLUP);
   }
+  digitalWrite(pinArray[0], LOW);
   while (!Serial) continue;
   Serial.println();
   Serial.println("Connecting");
