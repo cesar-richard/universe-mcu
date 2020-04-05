@@ -3,10 +3,9 @@
 #include <WebSocketClient.h>
 #include <Ticker.h>
 
-const int[] pinArray = [D0,D1,D2,D3,D4,D5,D6,D6,D7,D8];
-const bool[] stateArrey = [false,false,false,false,false,false,false,false,false];
-const bool[] lastStateArrey = [false,false,false,false,false,false,false,false,false];
-const char*[] nameArray = ["blueLed","blue","green","black","white","yellow","red","gray","D8"];
+const int pinArray [9] = {D0,D1,D2,D3,D4,D5,D6,D7,D8};
+bool* lastStateArray[9] = {false,false,false,false,false,false,false,false,false};
+const char* nameArray [9] = {"blueLed","blue","green","black","white","yellow","red","gray","D8"};
 const int interval = 10000;
 const char* ssid = "Licornes";
 const char* wifipassword = "UnicornPowaaaaa";
@@ -21,7 +20,7 @@ boolean handshakeFailed=0;
 
 void cb(String , String , String );
 void tick();
-void btnCheck(int , int* , String , void*);
+void btnCheck(int, void*);
 void wsconnect();
 
 void cb(String event, String sensor, String state){
@@ -46,14 +45,14 @@ void tick(){
 }
 
 void btnCheck(int index, void (&callback)(String, String, String)){
-  int state = digitalRead(pin);
-  if (state != *lastStateArrey[index]) {
+  bool state = digitalRead(pinArray[index]);
+  if (state != *lastStateArray[index]) {
     if (state == LOW) {
       callback("button",nameArray[index],"on");
     } else {
       callback("button",nameArray[index],"off");
     }
-    *lastStateArrey[index] = state;
+    *lastStateArray[index] = state;
   }
 }
 
@@ -81,7 +80,7 @@ void setup() {
   digitalWrite(pinArray[0], LOW);
   Serial.begin(115200);
   WiFi.begin(ssid, wifipassword);
-  pinMode(blueLedPin, OUTPUT);
+  pinMode(pinArray[0], OUTPUT);
   for (size_t i = 1; i < 9; i++) {
     pinMode(pinArray[i], INPUT_PULLUP);
   }
@@ -105,6 +104,6 @@ void setup() {
 
 void loop() {
   for (size_t i = 1; i < 9; i++) {
-    btnCheck(pinArray[i], &lastStateArrey[i], nameArray[i], cb);
+    btnCheck(i, cb);
   }
 }
