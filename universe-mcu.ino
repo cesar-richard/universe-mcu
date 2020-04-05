@@ -3,14 +3,10 @@
 #include <WebSocketClient.h>
 #include <Ticker.h>
 
-const int blueLedPin    = D0;
-const int redButtonPin = D6;
-const int blueButtonPin = D1;
-const int greenButtonPin = D2;
-const int blackButtonPin = D3;
-const int whiteButtonPin = D4;
-const int yellowButtonPin = D5;
-const int relayPin =  13;
+const int[] pinArray = [D0,D1,D2,D3,D4,D5,D6,D6,D7,D8];
+const bool[] stateArrey = [false,false,false,false,false,false,false,false,false];
+const bool[] lastStateArrey = [false,false,false,false,false,false,false,false,false];
+const char*[] nameArray = ["blueLed","blue","green","black","white","yellow","red","gray","D8"];
 const int interval = 10000;
 const char* ssid = "Licornes";
 const char* wifipassword = "UnicornPowaaaaa";
@@ -22,8 +18,11 @@ WebSocketClient webSocketClient;
 WiFiClient client;
 
 boolean handshakeFailed=0;
-int redButtonState,blueButtonState,greenButtonState,blackButtonState,whiteButtonState,yellowButtonState = 0;
-int lastRedButtonState,lastBlueButtonState,lastGreenButtonState,lastBlackButtonState,lastWhiteButtonState,lastYellowButtonState = 0;
+
+void cb(String , String , String );
+void tick();
+void btnCheck(int , int* , String , void*);
+void wsconnect();
 
 void cb(String event, String sensor, String state){
   String str = "{\"event\":\""+event+"\",\"sensor\":\""+sensor+"\",\"state\":\""+state+"\",\"time\":"+(String)millis()+"}";
@@ -46,17 +45,15 @@ void tick(){
    }
 }
 
-void btnCheck(int pin, int* lastState, String name, void (&callback)(String, String, String)){
+void btnCheck(int index, void (&callback)(String, String, String)){
   int state = digitalRead(pin);
-  if (state != *lastState) {
-    
+  if (state != *lastStateArrey[index]) {
     if (state == LOW) {
-      callback("button",name,"on");
+      callback("button",nameArray[index],"on");
     } else {
-      callback("button",name,"off");
+      callback("button",nameArray[index],"off");
     }
-    *lastState = state;
-    delay(20);
+    *lastStateArrey[index] = state;
   }
 }
 
@@ -72,7 +69,7 @@ void wsconnect(){
   webSocketClient.path = path;
   if (webSocketClient.handshake(client)) {
     Serial.println("Handshake successful");
-    digitalWrite(blueLedPin, HIGH);
+    digitalWrite(pinArray[0], HIGH);
   } else {
     Serial.println("Handshake failed.");
     delay(1000);
@@ -81,17 +78,13 @@ void wsconnect(){
 }
 
 void setup() {
+  digitalWrite(pinArray[0], LOW);
   Serial.begin(115200);
   WiFi.begin(ssid, wifipassword);
-  pinMode(relayPin, OUTPUT);
   pinMode(blueLedPin, OUTPUT);
-  pinMode(redButtonPin, INPUT_PULLUP);
-  pinMode(blueButtonPin, INPUT_PULLUP);
-  pinMode(greenButtonPin, INPUT_PULLUP);
-  pinMode(blackButtonPin, INPUT_PULLUP);
-  pinMode(whiteButtonPin, INPUT_PULLUP);
-  pinMode(yellowButtonPin, INPUT_PULLUP);
-  digitalWrite(blueLedPin, LOW);
+  for (size_t i = 1; i < 9; i++) {
+    pinMode(pinArray[i], INPUT_PULLUP);
+  }
   while (!Serial) continue;
   Serial.println();
   Serial.println("Connecting");
@@ -111,10 +104,7 @@ void setup() {
 }
 
 void loop() {
-  btnCheck(redButtonPin, &lastRedButtonState, "red", cb);
-  btnCheck(blueButtonPin, &lastBlueButtonState, "blue", cb);
-  btnCheck(greenButtonPin, &lastGreenButtonState, "green", cb);
-  btnCheck(blackButtonPin, &lastBlackButtonState, "black", cb);
-  btnCheck(whiteButtonPin, &lastWhiteButtonState, "white", cb);
-  btnCheck(yellowButtonPin, &lastYellowButtonState, "yellow", cb); 
+  for (size_t i = 1; i < 9; i++) {
+    btnCheck(pinArray[i], &lastStateArrey[i], nameArray[i], cb);
+  }
 }
