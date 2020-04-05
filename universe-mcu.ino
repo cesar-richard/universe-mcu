@@ -102,7 +102,7 @@ void setup() {
 }
 
 void loop() {
-  for (size_t i = 1; i < 9; i++) {
+  for (size_t i = 1; i < 9²²²²; i++) {
     btnCheck(i, cb);
   }
 }
