@@ -1,21 +1,41 @@
-//https://github.com/morrissinger/ESP8266-Websocket to include
-#include <ESP8266WiFi.h>
+#define BOARD_TYPE_ESP8266 //NodeMCU 0.9 (ESP-12 Module)
+//#define BOARD_TYPE_ESP32 //NodeMCU-32S
+
+
+
+#ifdef BOARD_TYPE_ESP8266
+  // https://github.com/morrissinger/ESP8266-Websocket to include in projet
+  #include <ESP8266WiFi.h>
+  #define blueLedPin     D0
+  #define redButtonPin  D6
+  #define blueButtonPin  D1
+  #define greenButtonPin  D2
+  #define blackButtonPin  D3
+  #define whiteButtonPin  D4
+  #define yellowButtonPin  D5
+  #define relayPin   13
+#endif
+#ifdef BOARD_TYPE_ESP32
+  // https://github.com/fburel/ESP32-Websocket to include in projet
+  #include <WiFi.h>
+  #define blueLedPin     2
+  #define redButtonPin  4
+  #define blueButtonPin  5
+  #define greenButtonPin  13
+  #define blackButtonPin  14
+  #define whiteButtonPin  15
+  #define yellowButtonPin  16
+  #define relayPin   17
+#endif
 #include <WebSocketClient.h>
 #include <Ticker.h>
 
-#define WIFI_SSID "Licornes"
-#define WIFI_PASSWORD "UnicornPowaaaaa"
-#define blueLedPin     2
-#define redButtonPin  4
-#define blueButtonPin  5
-#define greenButtonPin  13
-#define blackButtonPin  14
-#define whiteButtonPin  15
-#define yellowButtonPin  16
-#define relayPin   17
 #define interval  10000
+#define ssid  "Licornes"
+#define wifipassword  "UnicornPowaaaaa"
 #define wshost "192.168.1.29"
-#define path "/"
+String macAddress = "N/C";
+char path[] = "/";
 
 Ticker ticker;
 WebSocketClient webSocketClient;
@@ -48,8 +68,11 @@ void setup() {
   Serial.println("- succesfully connected");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  Serial.print("MAC address: ");
+  Serial.println(WiFi.macAddress());
   Serial.println("- starting client");
   wsconnect();
+  macAddress = WiFi.macAddress();
   ticker.attach(5, tick);
   Serial.println();
   Serial.println("System Ready");
@@ -80,7 +103,7 @@ void tick(){
 }
 
 void cb(String event, String sensor, String state){
-  String str = "{\"event\":\""+event+"\",\"sensor\":\""+sensor+"\",\"state\":\""+state+"\",\"time\":"+(String)millis()+"}";
+  String str = "{\"event\":\""+event+"\",\"sensor\":\""+sensor+"\",\"state\":\""+state+"\",\"time\":"+(String)millis()+", \"macAddress\":\"" + macAddress + "\"}";
   Serial.println("Sending : " + str);
   webSocketClient.sendData(str);
 }
