@@ -3,19 +3,19 @@
 #include <WebSocketClient.h>
 #include <Ticker.h>
 
-const int blueLedPin    = D0;
-const int redButtonPin = D6;
-const int blueButtonPin = D1;
-const int greenButtonPin = D2;
-const int blackButtonPin = D3;
-const int whiteButtonPin = D4;
-const int yellowButtonPin = D5;
-const int relayPin =  13;
-const int interval = 10000;
-const char* ssid = "Licornes";
-const char* wifipassword = "UnicornPowaaaaa";
-char* wshost = "192.168.1.29";
-char path[] = "/";
+#define WIFI_SSID "Licornes"
+#define WIFI_PASSWORD "UnicornPowaaaaa"
+#define blueLedPin     2
+#define redButtonPin  4
+#define blueButtonPin  5
+#define greenButtonPin  13
+#define blackButtonPin  14
+#define whiteButtonPin  15
+#define yellowButtonPin  16
+#define relayPin   17
+#define interval  10000
+#define wshost "192.168.1.29"
+#define path "/"
 
 Ticker ticker;
 WebSocketClient webSocketClient;
