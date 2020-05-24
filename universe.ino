@@ -106,12 +106,14 @@ void setup() {
 }
 
 void loop() {
-  /*btnCheck(redButtonPin, &lastRedButtonState, F("red"), cb);
-  btnCheck(blueButtonPin, &lastBlueButtonState, F("blue"), cb);
-  btnCheck(greenButtonPin, &lastGreenButtonState, F("green"), cb);
-  btnCheck(blackButtonPin, &lastBlackButtonState, F("black"), cb);
-  btnCheck(whiteButtonPin, &lastWhiteButtonState, F("white"), cb);
-  btnCheck(yellowButtonPin, &lastYellowButtonState, F("yellow"), cb); */
+  if(localMacAddress != "A4:CF:12:24:56:0C"){
+    btnCheck(redButtonPin, &lastRedButtonState, F("red"), cb);
+    btnCheck(blueButtonPin, &lastBlueButtonState, F("blue"), cb);
+    btnCheck(greenButtonPin, &lastGreenButtonState, F("green"), cb);
+    btnCheck(blackButtonPin, &lastBlackButtonState, F("black"), cb);
+    btnCheck(whiteButtonPin, &lastWhiteButtonState, F("white"), cb);
+    btnCheck(yellowButtonPin, &lastYellowButtonState, F("yellow"), cb);
+  }
 }
 void tick1(){
   if (client.connected()) {
