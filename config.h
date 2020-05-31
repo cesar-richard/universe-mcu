@@ -13,5 +13,9 @@
   #define WS_HOST "192.168.1.29"
 
   #include "libs.h"
+  #include "customSetup.h"
+  #include "customLoop.h"
+  #include "tick1.h"
+  #include "tick5.h"
   #include "nodes.h"
 #endif

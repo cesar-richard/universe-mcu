@@ -1,4 +1,4 @@
-void tick5(){
+void customtick5(){
    if (client.connected()) {
     cb(F("heartbeat"),F("core"),F("alive"));
    } else {

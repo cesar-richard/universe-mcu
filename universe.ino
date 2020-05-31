@@ -1,4 +1,5 @@
 #include "config.h"
+#include "libs.h"
 
 String localMacAddress = "N/C";
 
@@ -69,5 +70,5 @@ void setup() {
 }
 
 void loop() {
-  customLoop(cb, client, webSocketClient, localMacAddress);
+  customLoop(client, webSocketClient, cb);
 }

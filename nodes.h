@@ -5,17 +5,18 @@
   #endif
   #ifdef BOARD_TYPE_ESP32
     #ifdef NODE_RELAY
-      #import "node_relay/pinout.h"
-      #import "node_relay/customSetup.h"
-      #import "node_relay/tick1.h"
-      #import "node_relay/tick5.h"
+      #include "node_relay/pinout.h"
+      #include "node_relay/customSetup.cpp"
+      #include "node_relay/customLoop.cpp"
+      #include "node_relay/tick1.cpp"
+      #include "node_relay/tick5.cpp"
     #endif
     #ifdef NODE_CONTROL
-      #import "node_control/pinout.h"
-      #import "node_control/customSetup.h"
-      #import "node_control/customLoop.h"
-      #import "node_control/tick1.h"
-      #import "node_control/tick5.h"
+      #include "node_control/pinout.h"
+      #include "node_control/customSetup.cpp"
+      #include "node_control/customLoop.cpp"
+      #include "node_control/tick1.cpp"
+      #include "node_control/tick5.cpp"
     #endif
   #endif
 #endif
