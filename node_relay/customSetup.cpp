@@ -1,4 +1,4 @@
-void customSetup(String localMacAddress){
+void customSetup(){
     pinMode(RELAY_1_PIN, OUTPUT);
     pinMode(RELAY_2_PIN, OUTPUT);
     pinMode(RELAY_3_PIN, OUTPUT);

@@ -1,13 +1,13 @@
 void customSetup(){
-    pinMode(redButtonPin, INPUT_PULLUP);
-    pinMode(blueButtonPin, INPUT_PULLUP);
-    pinMode(greenButtonPin, INPUT_PULLUP);
-    pinMode(blackButtonPin, INPUT_PULLUP);
-    pinMode(whiteButtonPin, INPUT_PULLUP);
-    pinMode(yellowButtonPin, INPUT_PULLUP);
-    pinMode(greyButtonPin, INPUT_PULLUP);
-    pinMode(keyButtonPin, INPUT_PULLUP);
-    pinMode(capButtonPin, INPUT_PULLUP);
-    pinMode(capLedPin, OUTPUT);
-    pinMode(redLedPin, OUTPUT);
+    pinmode(RED_BUTTON_PIN, INPUT_PULLUP);
+    pinmode(BLUE_BUTTON_PIN, INPUT_PULLUP);
+    pinmode(GREEN_BUTTON_PIN, INPUT_PULLUP);
+    pinmode(BLACK_BUTTON_PIN, INPUT_PULLUP);
+    pinmode(WHITE_BUTTON_PIN, INPUT_PULLUP);
+    pinmode(YELLOW_BUTTON_PIN, INPUT_PULLUP);
+    pinmode(GREY_BUTTON_PIN, INPUT_PULLUP);
+    pinmode(KEY_BUTTON_PIN, INPUT_PULLUP);
+    pinmode(CAP_BUTTON_PIN, INPUT_PULLUP);
+    pinmode(CAP_LED_PIN, OUTPUT);
+    pinmode(RED_LED_PIN, OUTPUT);
 }

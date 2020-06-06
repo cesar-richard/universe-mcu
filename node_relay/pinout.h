@@ -10,13 +10,12 @@
       #define RELAY_6_PIN 14
       #define RELAY_7_PIN 15
       #define RELAY_8_PIN 13
-      #define blueLedPin     2
-      #define redButtonPin  4
-      #define blueButtonPin  5
-      #define greenButtonPin  13
-      #define blackButtonPin  14
-      #define whiteButtonPin  15
-      #define yellowButtonPin  16
+      #define RED_BUTTON_PIN  4
+      #define BLUE_BUTTON_PIN  5
+      #define GREEN_BUTTON_PIN  13
+      #define BLACK_BUTTON_PIN  14
+      #define WHITE_BUTTON_PIN  15
+      #define YELLOW_BUTTON_PIN  16
     #endif
   #endif
 #endif

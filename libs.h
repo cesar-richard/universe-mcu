@@ -11,5 +11,8 @@
   #ifdef BOARD_TYPE_ESP32
     // https://github.com/fburel/ESP32-Websocket to include in projet
     #include <WiFi.h>
+    #ifdef NODE_WEATHER
+      #include <DHTesp.h>
+    #endif
   #endif
 #endif

@@ -35,7 +35,7 @@ void wsconnect(){
   webSocketClient.path = "/";
   if (webSocketClient.handshake(client)) {
     Serial.println(F("Handshake successful"));
-    digitalWrite(blueLedPin, HIGH);
+    digitalWrite(LED_BUILTIN, HIGH);
   } else {
     Serial.println(F("Handshake failed."));
     delay(1000);
@@ -44,15 +44,15 @@ void wsconnect(){
 }
 
 void setup() {
-  pinMode(blueLedPin, OUTPUT);
-  digitalWrite(blueLedPin, LOW);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
   Serial.begin(115200);
+  while (!Serial) continue;
+  Serial.println(F("Startup"));
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   localMacAddress = WiFi.macAddress();
   customSetup();
-  while (!Serial) continue;
   Serial.println();
-  Serial.println(F("Connecting"));
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(F("."));

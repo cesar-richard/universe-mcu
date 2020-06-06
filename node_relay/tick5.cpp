@@ -1,4 +1,4 @@
-void customtick5(){
+void customtick5(WiFiClient client, void (&cb)(String, String, String)){
    if (client.connected()) {
     cb(F("heartbeat"),F("core"),F("alive"));
    } else {

@@ -1,13 +1,26 @@
+void btnCheck(int pin, int* lastState, String name, void (&callback)(String, String, String), bool forceSend){
+  int state = digitalRead(pin);
+  if (state != *lastState || forceSend) {
+    if (state == LOW) {
+      callback(F("button"),name,F("on"));
+    } else {
+      callback(F("button"),name,F("off"));
+    }
+    *lastState = state;
+    delay(20);
+  }
+}
+
 void customLoop(WiFiClient client, WebSocketClient webSocketClient, void (&callback)(String, String, String)){
-  btnCheck(redButtonPin, &lastRedButtonState, F("red"), callback);
-  btnCheck(blueButtonPin, &lastBlueButtonState, F("blue"), callback);
-  btnCheck(greenButtonPin, &lastGreenButtonState, F("green"), callback);
-  btnCheck(blackButtonPin, &lastBlackButtonState, F("black"), callback);
-  btnCheck(whiteButtonPin, &lastWhiteButtonState, F("white"), callback);
-  btnCheck(yellowButtonPin, &lastYellowButtonState, F("yellow"), callback);
-  btnCheck(greyButtonPin, &lastGreyButtonState, F("grey"), callback);
-  btnCheck(keyButtonPin, &lastKeyButtonState, F("key"), callback);
-  btnCheck(capButtonPin, &lastCapButtonState, F("cap"), callback);
+  btnCheck(RED_BUTTON_PIN, &lastRedButtonState, F("red"), callback);
+  btnCheck(BLUE_BUTTON_PIN, &lastBlueButtonState, F("blue"), callback);
+  btnCheck(GREEN_BUTTON_PIN, &lastGreenButtonState, F("green"), callback);
+  btnCheck(BLACK_BUTTON_PIN, &lastBlackButtonState, F("black"), callback);
+  btnCheck(WHITE_BUTTON_PIN, &lastWhiteButtonState, F("white"), callback);
+  btnCheck(YELLOW_BUTTON_PIN, &lastYellowButtonState, F("yellow"), callback);
+  btnCheck(GREY_BUTTON_PIN, &lastGreyButtonState, F("grey"), callback);
+  btnCheck(KEY_BUTTON_PIN, &lastKeyButtonState, F("key"), callback);
+  btnCheck(CAP_BUTTON_PIN, &lastCapButtonState, F("cap"), callback);
   if (client.connected()) {
     String json;
     webSocketClient.getData(json);
@@ -19,7 +32,7 @@ void customLoop(WiFiClient client, WebSocketClient webSocketClient, void (&callb
       if (error) {
         Serial.print(F("deserializeJson() failed: "));
         Serial.println(error.c_str());
-        //return;
+        return;
       }
       if(doc["target"].as<String>() == WiFi.macAddress()){
         const auto action = doc["action"].as<String>();
@@ -27,42 +40,29 @@ void customLoop(WiFiClient client, WebSocketClient webSocketClient, void (&callb
           bool state = doc["on"].as<bool>();
           int ledPin;
           if(doc["led"].as<String>() == "blue"){
-            digitalWrite(blueLedPin, state==true?HIGH:LOW); 
+            digitalWrite(LED_BUILTIN, state==true?HIGH:LOW); 
           } else if(doc["led"].as<String>() == "red"){
-            digitalWrite(redLedPin, state==true?HIGH:LOW);
+            digitalWrite(RED_LED_PIN, state==true?HIGH:LOW);
           } else if(doc["led"].as<String>() == "cap"){
-            digitalWrite(capLedPin, state==true?HIGH:LOW);
+            digitalWrite(CAP_LED_PIN, state==true?HIGH:LOW);
           }
         } else if (action == "getstatus"){
           if(doc["sensor"].as<String>() == "all"){
-            btnCheck(redButtonPin, &lastRedButtonState, F("red"), callback, true);
-            btnCheck(blueButtonPin, &lastBlueButtonState, F("blue"), callback, true);
-            btnCheck(greenButtonPin, &lastGreenButtonState, F("green"), callback, true);
-            btnCheck(blackButtonPin, &lastBlackButtonState, F("black"), callback, true);
-            btnCheck(whiteButtonPin, &lastWhiteButtonState, F("white"), callback, true);
-            btnCheck(yellowButtonPin, &lastYellowButtonState, F("yellow"), callback, true);
-            btnCheck(greyButtonPin, &lastGreyButtonState, F("grey"), callback, true);
-            btnCheck(keyButtonPin, &lastKeyButtonState, F("key"), callback, true);
-            btnCheck(capButtonPin, &lastCapButtonState, F("cap"), callback, true);
-            callback(F("led"),"blue",digitalRead(blueLedPin)==LOW?F("off"):F("on"));
-            callback(F("led"),"red",digitalRead(redLedPin)==LOW?F("off"):F("on"));
-            callback(F("led"),"cap",digitalRead(capLedPin)==LOW?F("off"):F("on"));
+            btnCheck(RED_BUTTON_PIN, &lastRedButtonState, F("red"), callback, true);
+            btnCheck(BLUE_BUTTON_PIN, &lastBlueButtonState, F("blue"), callback, true);
+            btnCheck(GREEN_BUTTON_PIN, &lastGreenButtonState, F("green"), callback, true);
+            btnCheck(BLACK_BUTTON_PIN, &lastBlackButtonState, F("black"), callback, true);
+            btnCheck(WHITE_BUTTON_PIN, &lastWhiteButtonState, F("white"), callback, true);
+            btnCheck(YELLOW_BUTTON_PIN, &lastYellowButtonState, F("yellow"), callback, true);
+            btnCheck(GREY_BUTTON_PIN, &lastGreyButtonState, F("grey"), callback, true);
+            btnCheck(KEY_BUTTON_PIN, &lastKeyButtonState, F("key"), callback, true);
+            btnCheck(CAP_BUTTON_PIN, &lastCapButtonState, F("cap"), callback, true);
+            callback(F("led"),"blue",digitalRead(LED_BUILTIN)==LOW?F("off"):F("on"));
+            callback(F("led"),"red",digitalRead(RED_LED_PIN)==LOW?F("off"):F("on"));
+            callback(F("led"),"cap",digitalRead(CAP_LED_PIN)==LOW?F("off"):F("on"));
           }
         }
       }
     }
-  }
-}
-
-void btnCheck(int pin, int* lastState, String name, void (&callback)(String, String, String), bool forceSend){
-  int state = digitalRead(pin);
-  if (state != *lastState || forceSend) {
-    if (state == LOW) {
-      callback(F("button"),name,F("on"));
-    } else {
-      callback(F("button"),name,F("off"));
-    }
-    *lastState = state;
-    delay(20);
   }
 }
