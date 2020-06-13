@@ -1,4 +1,6 @@
-void btnCheck(int pin, int* lastState, String name, void (&callback)(String, String, String), bool forceSend){
+int lastRedButtonState,lastBlueButtonState,lastGreenButtonState,lastBlackButtonState,lastWhiteButtonState,lastYellowButtonState, lastGreyButtonState, lastKeyButtonState, lastCapButtonState = 0;
+
+void btnCheck(int pin, int* lastState, String name, void (&callback)(String, String, String), bool forceSend=false){
   int state = digitalRead(pin);
   if (state != *lastState || forceSend) {
     if (state == LOW) {
@@ -38,7 +40,6 @@ void customLoop(WiFiClient client, WebSocketClient webSocketClient, void (&callb
         const auto action = doc["action"].as<String>();
         if(action == "led"){
           bool state = doc["on"].as<bool>();
-          int ledPin;
           if(doc["led"].as<String>() == "blue"){
             digitalWrite(LED_BUILTIN, state==true?HIGH:LOW); 
           } else if(doc["led"].as<String>() == "red"){

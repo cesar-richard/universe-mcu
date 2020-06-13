@@ -24,7 +24,7 @@ void tick5() {
 }
 
 void wsconnect(){
-  if (client.connect(WS_HOST, 3000)) {
+  if (client.connect(WS_HOST, WS_PORT)) {
     Serial.println(F("Connected"));
   } else {
     Serial.println(F("Connection failed."));

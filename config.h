@@ -4,15 +4,16 @@
   #define BOARD_TYPE_ESP32 //NodeMCU-32S
 
   
-  //#define NODE_CONTROL
+  #define NODE_CONTROL
   //#define NODE_RELAY
-  #define NODE_WEATHER
+  //#define NODE_WEATHER
   
   #define HB_INTERVAL 10000
   #define JSON_MAXSIZE 500
   #define WIFI_SSID  "Licornes"
   #define WIFI_PASSWORD  "UnicornPowaaaaa"
-  #define WS_HOST "192.168.1.29"
+  #define WS_HOST "universe-server.crichard.fr"
+  #define WS_PORT 3657
   
   void cb(String event, String sensor, String state);
 
