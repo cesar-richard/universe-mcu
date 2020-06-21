@@ -50,7 +50,10 @@ void customtick1(WiFiClient client, WebSocketClient webSocketClient, String loca
             Serial.print(relay);
             Serial.print(F(" to "));
             Serial.println(state==true?F("on"):F("off"));
-        }
+        } else if (action == "getstatus"){
+          if(doc["sensor"].as<String>() == "all"){
+            
+          }
       }
     }
   }
