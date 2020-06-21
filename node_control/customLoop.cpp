@@ -36,8 +36,8 @@ void customLoop(WiFiClient client, WebSocketClient webSocketClient, void (&callb
         Serial.println(error.c_str());
         return;
       }
+      const auto action = doc["action"].as<String>();
       if(doc["target"].as<String>() == WiFi.macAddress()){
-        const auto action = doc["action"].as<String>();
         if(action == "led"){
           bool state = doc["on"].as<bool>();
           if(doc["led"].as<String>() == "blue"){
@@ -47,21 +47,21 @@ void customLoop(WiFiClient client, WebSocketClient webSocketClient, void (&callb
           } else if(doc["led"].as<String>() == "cap"){
             digitalWrite(CAP_LED_PIN, state==true?HIGH:LOW);
           }
-        } else if (action == "getstatus"){
-          if(doc["sensor"].as<String>() == "all"){
-            btnCheck(RED_BUTTON_PIN, &lastRedButtonState, F("red"), callback, true);
-            btnCheck(BLUE_BUTTON_PIN, &lastBlueButtonState, F("blue"), callback, true);
-            btnCheck(GREEN_BUTTON_PIN, &lastGreenButtonState, F("green"), callback, true);
-            btnCheck(BLACK_BUTTON_PIN, &lastBlackButtonState, F("black"), callback, true);
-            btnCheck(WHITE_BUTTON_PIN, &lastWhiteButtonState, F("white"), callback, true);
-            btnCheck(YELLOW_BUTTON_PIN, &lastYellowButtonState, F("yellow"), callback, true);
-            btnCheck(GREY_BUTTON_PIN, &lastGreyButtonState, F("grey"), callback, true);
-            btnCheck(KEY_BUTTON_PIN, &lastKeyButtonState, F("key"), callback, true);
-            btnCheck(CAP_BUTTON_PIN, &lastCapButtonState, F("cap"), callback, true);
-            callback(F("led"),"blue",digitalRead(LED_BUILTIN)==LOW?F("off"):F("on"));
-            callback(F("led"),"red",digitalRead(RED_LED_PIN)==LOW?F("off"):F("on"));
-            callback(F("led"),"cap",digitalRead(CAP_LED_PIN)==LOW?F("off"):F("on"));
-          }
+        }
+      } else if (action == "getstatus"){
+        if(doc["sensor"].as<String>() == "all"){
+          btnCheck(RED_BUTTON_PIN, &lastRedButtonState, F("red"), callback, true);
+          btnCheck(BLUE_BUTTON_PIN, &lastBlueButtonState, F("blue"), callback, true);
+          btnCheck(GREEN_BUTTON_PIN, &lastGreenButtonState, F("green"), callback, true);
+          btnCheck(BLACK_BUTTON_PIN, &lastBlackButtonState, F("black"), callback, true);
+          btnCheck(WHITE_BUTTON_PIN, &lastWhiteButtonState, F("white"), callback, true);
+          btnCheck(YELLOW_BUTTON_PIN, &lastYellowButtonState, F("yellow"), callback, true);
+          btnCheck(GREY_BUTTON_PIN, &lastGreyButtonState, F("grey"), callback, true);
+          btnCheck(KEY_BUTTON_PIN, &lastKeyButtonState, F("key"), callback, true);
+          btnCheck(CAP_BUTTON_PIN, &lastCapButtonState, F("cap"), callback, true);
+          callback(F("led"),"blue",digitalRead(LED_BUILTIN)==LOW?F("off"):F("on"));
+          callback(F("led"),"red",digitalRead(RED_LED_PIN)==LOW?F("off"):F("on"));
+          callback(F("led"),"cap",digitalRead(CAP_LED_PIN)==LOW?F("off"):F("on"));
         }
       }
     }
