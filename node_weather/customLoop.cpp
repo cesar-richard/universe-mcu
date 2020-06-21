@@ -17,6 +17,7 @@ void customLoop(WiFiClient client, WebSocketClient webSocketClient, void (&callb
         if (action == "getstatus"){
           if(doc["sensor"].as<String>() == "all"){
             callback(F("led"),"blue",digitalRead(LED_BUILTIN)==LOW?F("off"):F("on"));
+            getTemperature();
           }
         }
       }
